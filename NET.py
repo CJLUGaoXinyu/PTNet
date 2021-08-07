@@ -140,16 +140,7 @@ class Down(nn.Module):
 
     def forward(self, x):
         return self.maxpool_conv(x)
-# class interpolation(nn.Module):
-#     def __init__(self):
-#         super(interpolation, self).__init__()
-#         self.interpolate=torch.nn.functional.interpolate(input, size=None, scale_factor=None, mode='bilinear', align_corners=None)
-#
-#     def forward(self, x):
-#         x.transpose_([0,2,3,1])
-#         x = self.interpolate(x)
-#         x.transpose_([0, 3, 1, 2])
-#         return x
+
 
 
 
@@ -180,33 +171,6 @@ class SCABlock(nn.Module):
         xs = self.SpatialAttention(x)
         x = self.prelu(xs)
         return self.relu(xs.expand_as(x) * x_r)
-
-
-# class RCCAModule(nn.Module):
-#     def __init__(self, in_channels, out_channels, num_classes):
-#         super(RCCAModule, self).__init__()
-#         inter_channels = in_channels // 4
-#         self.conva = nn.Sequential(nn.Conv2d(in_channels, inter_channels, 3, padding=1, bias=False),
-#                                    nn.BatchNorm2d(inter_channels))
-#         self.cca = CrissCrossAttention(inter_channels)
-#         self.convb = nn.Sequential(nn.Conv2d(inter_channels, inter_channels, 3, padding=1, bias=False),
-#                                    nn.BatchNorm2d(inter_channels))
-#
-#         self.bottleneck = nn.Sequential(
-#             nn.Conv2d(in_channels+inter_channels, out_channels, kernel_size=3, padding=1, dilation=1, bias=False),
-#             nn.BatchNorm2d(out_channels),
-#             nn.Dropout2d(0.1),
-#             nn.Conv2d(512, num_classes, kernel_size=1, stride=1, padding=0, bias=True)
-#             )
-#
-#     def forward(self, x, recurrence=1):
-#         output = self.conva(x)
-#         for i in range(recurrence):
-#             output = self.cca(output)
-#         output = self.convb(output)
-#
-#         output = self.bottleneck(torch.cat([x, output], 1))
-#         return output
 
 
 class RA_SubNet(nn.Module):
